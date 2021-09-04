@@ -3,6 +3,7 @@ package com.springsecurity.spsecuriy.security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -19,17 +20,18 @@ import static com.springsecurity.spsecuriy.security.AppUserRole.*;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/","index","/css/*","/js/*")  .permitAll()
-                .antMatchers("/api/*").hasAnyRole(STUDENT.name())
-                .antMatchers(HttpMethod.DELETE,"/api/v1/management/**").hasAnyAuthority(COURSE_WRITE.name())
-                .antMatchers(HttpMethod.PUT,"/api/v1/management/**").hasAnyAuthority(COURSE_WRITE.name())
-                .antMatchers(HttpMethod.POST,"/api/v1/management/**").hasAnyAuthority(COURSE_WRITE.name())
-                .antMatchers(HttpMethod.GET,"/api/v1/management/**").hasAnyRole(ADMIN.name(),TRAINEE.name())
+//                .antMatchers("/api/students/**").hasAnyRole(STUDENT.name())
+//                .antMatchers(HttpMethod.DELETE,"/api/management/**").hasAnyAuthority(COURSE_WRITE.getPermission())
+//                .antMatchers(HttpMethod.PUT,"/api/management/**").hasAnyAuthority(COURSE_WRITE.getPermission())
+//                .antMatchers(HttpMethod.POST,"/api/management/**").hasAnyAuthority(COURSE_WRITE.getPermission())
+//                .antMatchers(HttpMethod.GET,"/api/management/**").hasAnyRole(ADMIN.name(),TRAINEE.name())
                 .anyRequest()
                 .authenticated()
                 .and()
