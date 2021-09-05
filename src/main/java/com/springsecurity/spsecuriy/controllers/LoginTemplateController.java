@@ -11,4 +11,8 @@ public class LoginTemplateController {
     public String getLoginView() {
         return "login";
     }
+    @GetMapping("/courses")
+    public  String getCourses(){
+    return  "courses";
+    }
 }
